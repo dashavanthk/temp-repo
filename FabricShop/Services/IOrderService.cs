@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FabricShop.Services
 {
-    interface IOrderService
+    public interface IOrderService
     {
         List<Order> GetOrders();
 

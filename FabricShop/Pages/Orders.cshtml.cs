@@ -12,9 +12,9 @@ namespace FabricShop.Pages
 {
     public class OrdersModel : PageModel
     {
-        private readonly OrderService _service;
+        private readonly IOrderService _service;
 
-        public OrdersModel(OrderService service)
+        public OrdersModel(IOrderService service)
         {
             _service = service;
         }

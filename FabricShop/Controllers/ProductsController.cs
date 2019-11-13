@@ -19,8 +19,8 @@ namespace FabricShop.Controllers
     {
         private readonly Db _context;
         private UserManager<ApplicationUser> _userManager;
-        private readonly ProductService _productService;
-        public ProductsController(Db context, UserManager<ApplicationUser> userManager, ProductService productService)
+        private readonly IProductService _productService;
+        public ProductsController(Db context, UserManager<ApplicationUser> userManager, IProductService productService)
         {
             _context = context;
             _userManager = userManager;
