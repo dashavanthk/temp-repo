@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
@@ -39,7 +40,7 @@ namespace FabricShop.Migrations
 
             modelBuilder.Entity("FabricShop.Data.Entities.Product", b =>
                 {
-                    b.Property<string>("ProductId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Cate1");
@@ -52,13 +53,15 @@ namespace FabricShop.Migrations
 
                     b.Property<string>("Composition");
 
+                    b.Property<string>("ProductId");
+
                     b.Property<string>("ProductName");
 
                     b.Property<string>("VendorName");
 
                     b.Property<string>("Weave");
 
-                    b.HasKey("ProductId");
+                    b.HasKey("Id");
 
                     b.ToTable("Products");
                 });

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using FabricShop.Data.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace FabricShop.Data.Entities
+namespace FabricShop.Pages
 {
-    public class Product
+    public class ProductsModel : PageModel
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string ProductId { get; set; }
         public string ProductName { get; set; }
@@ -18,6 +19,13 @@ namespace FabricShop.Data.Entities
         public string Cate1 { get; set; }
         public string Cate2 { get; set; }
         public string Cate3 { get; set; }
-        public string VendorName { get; set; }
+
+        public IList<Product> Products { get; set; }
+        public string CurrentFilter { get; set; }
+
+        public void OnGet()
+        {
+
+        }
     }
 }

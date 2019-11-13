@@ -1,0 +1,54 @@
+﻿@page
+@model FabricShop.Pages.OrdersModel
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h2>Orders</h2>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Order Id
+                </th>
+                <th>
+                   Product Code
+                </th>
+                <th>
+                   Order Type
+                </th>
+                <th>
+                    Delivery Distance
+                </th>
+                <th>
+                    Delivery Time
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Orders)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeliveryDistance)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeliveryTime)
+                    </td>
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

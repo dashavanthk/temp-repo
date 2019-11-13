@@ -4,14 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace FabricShop.Migrations
 {
     [DbContext(typeof(Db))]
-    [Migration("20191113060743_init")]
-    partial class init
+    [Migration("20191113164505_trying")]
+    partial class trying
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,9 +21,27 @@ namespace FabricShop.Migrations
                 .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("FabricShop.Data.Entities.Order", b =>
+                {
+                    b.Property<string>("OrderId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DeliveryDistance");
+
+                    b.Property<string>("DeliveryTime");
+
+                    b.Property<string>("OrderType");
+
+                    b.Property<string>("ProductCode");
+
+                    b.HasKey("OrderId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("FabricShop.Data.Entities.Product", b =>
                 {
-                    b.Property<string>("ProductId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Cate1");
@@ -35,13 +54,15 @@ namespace FabricShop.Migrations
 
                     b.Property<string>("Composition");
 
+                    b.Property<string>("ProductId");
+
                     b.Property<string>("ProductName");
 
                     b.Property<string>("VendorName");
 
                     b.Property<string>("Weave");
 
-                    b.HasKey("ProductId");
+                    b.HasKey("Id");
 
                     b.ToTable("Products");
                 });

@@ -1,0 +1,164 @@
+﻿@page
+@model FabricShop.Pages.ProductsModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="row" id="content">
+    <div class="col-lg-6">
+        <h2>Product List</h2>
+        <ul id="prod-list"></ul>
+        <button class="btn btn-sm btn-default" id="new">Add New</button>
+    </div>
+    <div class="col-lg-6">
+        <div id="details"></div>
+        <div id="form">
+            <form class="form-horizontal">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label for="ProductId">Product Id</label>
+                    <input type="text" asp-for="ProductId" class="form-control input-sm" />
+                </div>
+                <div class="form-group">
+                    <label for="ProductName">Product Name</label>
+                    <input type="text" asp-for="ProductName" class="form-control input-sm" />
+                </div>
+                <div class="form-group">
+                    <label for="Weave">Weave</label>
+                    <input type="text" asp-for="Weave" class="form-control input-sm" />
+                </div>
+                <div class="form-group">
+                    <label for="Composition">Composition</label>
+                    <input type="text" asp-for="Composition" class="form-control input-sm" />
+                </div>
+                <div class="form-group">
+                    <label for="Color">Color</label>
+                    <input type="text" asp-for="Color" class="form-control input-sm" />
+                </div>
+                <div class="form-group">
+                    <label for="Cate1">Category 1</label>
+                    <input type="text" asp-for="Cate1" class="form-control input-sm" />
+                </div>
+                <div class="form-group">
+                    <label for="Cate2">Category 2</label>
+                    <input type="text" asp-for="Cate2" class="form-control input-sm" />
+                </div>
+                <div class="form-group">
+                    <label for="Cate3">Category 3</label>
+                    <input type="text" asp-for="Cate3" class="form-control input-sm" />
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-sm" id="save">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+    $(function () {
+        var loadProducts = function () {
+            $('#prod-list').empty();
+            $.get('/api/products').done(function (products) {
+                $.each(products, function (i, prod) {
+                    var item = `<li>
+                            <span class="entry">
+                                <strong>${prod.ProductId} ${prod.ProductName}</strong>
+                                (£${prod.Composition})
+                                </span>
+                                <span class ="details" data-id="${prod.id}">Details</span> |
+                                <span class ="edit"  data-id="${prod.id}">Edit</span> |
+                                <span class ="delete"  data-id="${prod.id}">Delete</span>
+                            </li>`;
+                    $('#prod-list').append(item);
+                });
+            });
+        }
+        var showForm = function () {
+            $(':input').val('');
+            $('#details').empty();
+            $('#form').show();
+        }
+        var clearForm = function () {
+            $('#details').empty();
+            $(':input').val('');
+            $('#form').hide();
+        }
+        $('#new').on('click', showForm);
+        clearForm();
+        loadProducts();
+
+        //Get individual product details
+        $('#prod-list').on('click', '.edit, .details', function () {
+            var cmd = $(this);
+            $.get(`/api/products/${cmd.data('id')}`).done(function (prod) {
+                if (cmd.hasClass('details')) {
+                    clearForm()
+                    $('#details').empty().append(
+                        `<h3>Details</h3>
+                    <strong>${prod.ProductId} ${prod.ProductName}</strong><br>
+                    
+                    Weave: ${prod.Weave}<br>
+                    Composition: ${prod.Composition}<br>
+                    Color: ${prod.color}<br>
+                    Category 1: ${prod.Cate1}<br>
+                    Category 2: ${prod.Cate2}<br>
+                    Category 3: ${prod.Cate3}`
+                    );
+                } else {
+                    showForm();
+                    $('#Id').val(prod.id);
+                    $('#ProductName').val(prod.ProductName);
+                    $('#ProductId').val(prod.ProductId);
+                    $('#color').val(prod.color);
+                    $('#Weave').val(prod.Weave);
+                    $('#Composition').val(prod.Composition);
+                    $('#Cate1').val(prod.Cate1);
+                    $('#Cate2').val(prod.Cate2);
+                    $('#Cate3').val(prod.Cate3);
+                }
+            });
+        });
+
+
+        //Save/update
+        $('#save').on('click', function (e) {
+            e.preventDefault();
+            var url = '/api/products/';
+            var method = 'post';
+            if ($('#Id').val() !== '') {
+                url += $('#Id').val();
+                method = 'put';
+            }
+            var prod = {};
+            $.each($(this).closest('form').serializeArray(), function () {
+                if (this.name !== 'Id' || (this.name === 'Id' && this.value !== '')) {
+                    prod[this.name] = this.value || '';
+                }
+            });
+            $.ajax({
+                type: method,
+                url: url,
+                data: JSON.stringify(prod),
+                contentType: 'application/json'
+            }).done(function () {
+                clearForm();
+                loadProducts();
+            });
+        });
+
+        //Delete
+        $('#prod-list').on('click', '.delete', function () {
+            $.ajax({
+                type: 'delete',
+                url: '/api/products/' + $(this).data('id'),
+            }).done(function () {
+                clearForm();
+                loadProducts();
+            });
+        });
+    });
+    </script>
+}
+
+
