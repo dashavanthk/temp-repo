@@ -10,7 +10,7 @@ namespace FabricShop.Data.Entities
         public string OrderId { get; set; }
         public string ProductCode { get; set; }
         public string OrderType{ get; set; }
-        public int DeliveryDistance { get; set; }
-        public int DeliveryTime { get; set; }
+        public string DeliveryDistance { get; set; }
+        public string DeliveryTime { get; set; }
     }
 }
